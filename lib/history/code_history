@@ -1,0 +1,339 @@
+// child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Column(
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         children: [
+                    //           Text(snapshot.data!.items[index].snippet.title),
+                    //YoutubePlayer(
+                    //                     controller: controller[index],
+                    //                   ),
+                    //           Image.network(
+                    //             snapshot.data!.items[index].snippet
+                    //                 .thumbnailsOption.defaultOption.url,
+                    //             fit: BoxFit.fill,
+                    //           )
+                    //         ],
+                    //       ),
+                    //     ]),
+
+
+ //child: SingleChildScrollView(
+           child: VideoList(),
+           //child: Column(
+           //   mainAxisAlignment: MainAxisAlignment.start,
+           //  children: <Widget>[
+           //     Text('Lorem Ipsum:',
+           //         style: GoogleFonts.ingridDarling(
+           //           textStyle: const TextStyle(
+           //             fontSize: 30,
+           //             fontWeight: FontWeight.w300,
+           //           ),
+           //         )),
+           //      const VideoList(),
+           //   ],
+         //),
+         // ),
+
+
+         // _controllers = List.generate(
+         // //,
+         // snapshot.data!.items.length,
+         // (index) => YoutubePlayerController.fromVideoId(
+         // videoId: idd[index],
+         // //snapshot.data!.items[index].id.videoId
+         // autoPlay: false,
+         // params: const YoutubePlayerParams(
+         // showFullscreenButton: true,
+         // ),
+         // ));
+         // final controller = _controllers[index];
+         // return YoutubePlayer(
+         // key: ObjectKey(controller),
+         // controller: controller,
+         // );
+
+          @override
+           void initState() {
+             String wordToSearch = 'Nietzsche';
+             video = FetchAPI().fetchVideo(wordToSearch);
+             super.initState();
+           }
+
+           import 'dart:math' as math;
+
+           import 'package:flutter/material.dart';
+
+           /// Flutter code sample for a [ChangeNotifier] with a [ListenableBuilder].
+
+           void main() {
+             runApp(const ListenableBuilderExample());
+           }
+
+           class ListModel with ChangeNotifier {
+             final List<int> _values = <int>[];
+             List<int> get values => _values.toList(); // O(N), makes a new copy each time.
+
+             void add(int value) {
+               _values.add(value);
+               notifyListeners();
+             }
+           }
+
+           class ListenableBuilderExample extends StatefulWidget {
+             const ListenableBuilderExample({super.key});
+
+             @override
+             State<ListenableBuilderExample> createState() =>
+                 _ListenableBuilderExampleState();
+           }
+
+           class _ListenableBuilderExampleState extends State<ListenableBuilderExample> {
+             final ListModel _listNotifier = ListModel();
+             final math.Random _random = math.Random(0); // fixed seed for reproducability
+
+             @override
+             Widget build(BuildContext context) {
+               return MaterialApp(
+                 home: Scaffold(
+                   appBar: AppBar(title: const Text('ListenableBuilder Example')),
+                   body: ListBody(listNotifier: _listNotifier),
+                   floatingActionButton: FloatingActionButton(
+                     onPressed: () => _listNotifier.add(_random
+                         .nextInt(1 << 32)), // 1 << 32 is the maximum supported value
+                     child: const Icon(Icons.add),
+                   ),
+                 ),
+               );
+             }
+           }
+
+           class ListBody extends StatelessWidget {
+             const ListBody({super.key, required this.listNotifier});
+
+             final ListModel listNotifier;
+
+             @override
+             Widget build(BuildContext context) {
+               return Center(
+                 child: Column(
+                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                   children: <Widget>[
+                     const Text('Current values:'),
+                     Expanded(
+                       child: ListenableBuilder(
+                         listenable: listNotifier,
+                         builder: (BuildContext context, Widget? child) {
+                           // We rebuild the ListView each time the list changes,
+                           // so that the framework knows to update the rendering.
+                           final List<int> values = listNotifier.values; // copy the list
+                           return ListView.builder(
+                             itemBuilder: (BuildContext context, int index) => ListTile(
+                               title: Text('${values[index]}'),
+                             ),
+                             itemCount: values.length,
+                           );
+                         },
+                       ),
+                     ),
+                   ],
+                 ),
+               );
+             }
+           }
+//Future<Video> videoList  = FetchAPI().fetchVideo('Nietzsche');
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   String wordToSearch = 'Nietzsche';
+  //   FetchAPI().getVideoList(wordToSearch);
+  //  // print(context.watch<FetchAPI>().videoList);
+  // }
+
+  return List<ListTile>.generate(5, (int index) {
+            final String item = 'item $index';
+            return ListTile(
+              title: Text(item),
+              onTap: () {
+                setState(() {
+                  controller.closeView(item);
+                });
+              },
+            );
+          });
+
+                    // onChanged: (_) {
+                              //   controller.openView();
+                              // },
+
+
+  //     builder: (BuildContext context, SearchController controller) {
+            //   return SearchBar(
+            //     controller: controller,
+            //     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //       const RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            //       ),
+            //     ),
+            //     padding: const MaterialStatePropertyAll<EdgeInsets>(
+            //         EdgeInsets.symmetric(horizontal: 16.0)),
+            //     onTap: () {
+            //       controller.openView();
+            //       print(controller.text);
+            //     },
+            //     onChanged: (_) {
+            //       // controller.openView();
+            //     },
+            //     leading: IconButton(
+            //         icon: const Icon(Icons.search),
+            //         onPressed: () async {
+            //           listOfSearchedWord.removeWhere(
+            //               (element) => element.compareTo(controller.text) == 0);
+            //           listOfSearchedWord.add(controller.text);
+            //
+            //           if (controller.text != '') {
+            //             await Provider.of<FetchAPI>(context, listen: false)
+            //                 .getVideoList(controller.text);
+            //           }
+            //         }),
+            //     trailing: <Widget>[
+            //       Tooltip(
+            //         message: 'Change brightness mode',
+            //         child: IconButton(
+            //           onPressed: () {
+            //             Provider.of<ThemeModel>(context, listen: false).toggleTheme();
+            //           },
+            //           icon: Provider.of<ThemeModel>(context, listen: false)
+            //                       .currentTheme ==
+            //                   ThemeData.light()
+            //               ? const Icon(Icons.wb_sunny_outlined)
+            //               : const Icon(Icons.brightness_2_outlined),
+            //         ),
+            //       )
+            //     ],
+            //   );
+            // },
+
+
+  // viewLeading: IconButton(
+            //     icon: const Icon(Icons.search),
+            //     onPressed: () async {
+            //       listOfSearchedWord.removeWhere((element) =>
+            //           element.compareTo(_searchController.text) == 0);
+            //       listOfSearchedWord.add(_searchController.text);
+            //
+            //       if (_searchController.text != '') {
+            //         await Provider.of<FetchAPI>(context, listen: false)
+            //             .getVideoList(_searchController.text);
+            //       }
+            //     }),
+            // barTrailing: [
+            //   Tooltip(
+            //     message: 'Change brightness mode',
+            //     child: IconButton(
+            //       onPressed: () {
+            //         Provider.of<ThemeModel>(context, listen: false).toggleTheme();
+            //       },
+            //       icon: Provider.of<ThemeModel>(context, listen: false)
+            //                   .currentTheme ==
+            //               ThemeData.light()
+            //           ? const Icon(Icons.wb_sunny_outlined)
+            //           : const Icon(Icons.brightness_2_outlined),
+            //     ),
+            //   )
+            // ],
+            // searchController: _searchController,
+            // barShape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            //   const RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.all(Radius.circular(4.0)),
+            //   ),
+            // ),
+            // barPadding: const MaterialStatePropertyAll<EdgeInsets>(
+            //     EdgeInsets.symmetric(horizontal: 16.0)),
+            // onTap: () {
+            //   _searchController.openView();
+            //   print(_searchController.text);
+            // },
+
+
+            SearchController searchController = SearchController();
+
+              void initState() {
+                // listen to focus changes
+                searchController.addListener(() => print('aaaaa: ${searchController.text}'));
+              }
+
+              onPressed: () async {
+                          listOfSearchedWord.removeWhere(
+                              (element) => element.compareTo(widget.controller.text) == 0);
+                          listOfSearchedWord.add(widget.controller.text);
+
+                          if (widget.controller.text != '') {
+                            await Provider.of<FetchAPI>(context, listen: false)
+                                .getVideoList(widget.controller.text);
+                          }
+                        }
+
+
+
+     SearchBar(
+                   controller: controller,
+                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                     const RoundedRectangleBorder(
+                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                     ),
+                   ),
+                   padding: const MaterialStatePropertyAll<EdgeInsets>(
+                       EdgeInsets.symmetric(horizontal: 16.0)),
+                   onTap: () {
+                     controller.openView();
+                     print(controller.text);
+                   },
+                   onChanged: (_) {
+                   },
+                   leading: IconButton(
+                       icon: const Icon(Icons.search),
+                       onPressed: () async {
+                         listOfSearchedWord.removeWhere(
+                             (element) => element.compareTo(controller.text) == 0);
+                         listOfSearchedWord.add(controller.text);
+
+                         if (controller.text != '') {
+                           await Provider.of<FetchAPI>(context, listen: false)
+                               .getVideoList(controller.text);
+                         }
+                       }),
+                   trailing: <Widget>[
+                     Tooltip(
+                       message: 'Change brightness mode',
+                       child: IconButton(
+                         onPressed: () {
+                           Provider.of<ThemeModel>(context, listen: false)
+                               .toggleTheme();
+                         },
+                         icon: Provider.of<ThemeModel>(context, listen: false)
+                                     .currentTheme ==
+                                 ThemeData.light()
+                             ? const Icon(Icons.wb_sunny_outlined)
+                             : const Icon(Icons.brightness_2_outlined),
+                       ),
+                     )
+                   ],
+                 );
+
+
+                 //  bottomNavigationBar: nav.build(context),
+                 // const SearchBarApp(),
+                 
+                 
+// static providerToSwitchTheme(BuildContext context) {
+//   Provider.of<ThemeModel>(context, listen: false).toggleTheme();
+// }
+//
+// static providerToSwitchThemeIcon(BuildContext context) {
+//   Provider.of<ThemeModel>(context, listen: false).currentTheme ==
+//           ThemeData.light()
+//       ? const Icon(Icons.wb_sunny_outlined)
+//       : const Icon(Icons.brightness_2_outlined);
+// }
