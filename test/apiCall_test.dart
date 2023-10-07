@@ -23,8 +23,6 @@ void main() {
       String baseUrl = constantAPI.baseUrl;
       String url = sprintf(baseUrl, ['batman']);
       final responseJson = await rootBundle.loadString('response.json');
-      //Video data = Video.fromJson(json.decode(responseJson));
-      //print(responseJson);
 
       when(client.get(Uri.parse(url)))
           .thenAnswer((_) async => http.Response(responseJson, 200, headers: {
